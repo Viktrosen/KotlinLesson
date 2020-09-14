@@ -1,34 +1,56 @@
 package com.hfrad.kotlinlesson.data
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.hfrad.kotlinlesson.data.entity.Note
+import java.util.*
+
 
 object NoteRepository {
-    private val notes: List<Note> = listOf(
-            Note("Моя первая заметка",
+
+    private val notesLiveData = MutableLiveData<List<Note>>()
+
+    private val notes = mutableListOf(
+            Note(     UUID.randomUUID().toString(),
+                    "Моя первая заметка",
                     "Kotlin очень краткий, но при этом выразительный язык",
-                    0xfff06292.toInt()),
-            Note("Моя вторая заметка",
+                    Note.Color.WHITE),
+            Note(UUID.randomUUID().toString(),"Моя вторая заметка",
                     "Kotlin очень краткий, но при этом выразительный язык",
-                    0xff9575cd.toInt()),
-            Note("Моя третья заметка",
+                    Note.Color.VIOLET),
+            Note(UUID.randomUUID().toString(),"Моя третья заметка",
                     "Kotlin очень краткий, но при этом выразительный язык",
-                    0xff64b5f6.toInt()),
-            Note("Моя четвёртая заметка",
+                    Note.Color.YELLOW),
+            Note(UUID.randomUUID().toString(),"Моя четвёртая заметка",
                     "Kotlin очень краткий, но при этом выразительный язык",
-                    0xff4db6ac.toInt()),
-            Note("Моя пятая заметка",
+                    Note.Color.RED),
+            Note(UUID.randomUUID().toString(),"Моя пятая заметка",
                     "Kotlin очень краткий, но при этом выразительный язык",
-                    0xffb2ff59.toInt()),
-            Note("Моя шестая заметка",
+                    Note.Color.PINK),
+            Note(UUID.randomUUID().toString(),"Моя шестая заметка",
                     "Kotlin очень краткий, но при этом выразительный язык",
-                    0xffffeb3b.toInt()),
-            Note("Моя седьмая заметка",
-                    "Kotlin очень краткий, но при этом выразительный язык",
-                    0xffff6e40.toInt())
+                    Note.Color.GREEN)
     )
 
-    fun getNotes(): List<Note> {
-        return notes
+    init {
+        notesLiveData.value = notes
+    }
+
+    fun getNotes(): LiveData<List<Note>> {
+        return notesLiveData
+    }
+
+    fun saveNote(note:Note){
+        addOrReplace(note)
+    }
+
+    fun addOrReplace(note:Note){
+        for(i in 0 until notes.size){
+            if (notes[i]==note){
+                notes[i]=note
+                return
+            }
+        }
     }
 
 }

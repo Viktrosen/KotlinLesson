@@ -4,6 +4,5 @@
     <dimen name="marginTop">8dp</dimen>
     <dimen name="marginEnd">8dp</dimen>
     <dimen name="marginBottom">8dp</dimen>
-    <dimen name="layout_width">match_parent</dimen>
-    <dimen name="layout_height">wrap_content</dimen>>
+
 </resources>

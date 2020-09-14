@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hfrad.kotlinlesson.R
 import com.hfrad.kotlinlesson.data.ui.main.MainViewModel
+import com.hfrad.kotlinlesson.data.ui.note.NoteActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -31,5 +32,9 @@ class MainActivity : AppCompatActivity() {
         viewModel.viewState().observe(this, Observer<MainViewState> { t ->
             t?.let { adapter.notes = it.notes }
         })
+
+        fab.setOnClickListener{
+            NoteActivity.start(this)
+        }
     }
 }
