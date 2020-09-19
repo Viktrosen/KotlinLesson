@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="marginStart">8dp</dimen>
-    <dimen name="marginTop">8dp</dimen>
-    <dimen name="marginEnd">8dp</dimen>
-    <dimen name="marginBottom">8dp</dimen>
-
-</resources>
