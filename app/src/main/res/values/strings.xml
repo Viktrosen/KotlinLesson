@@ -1,9 +1,14 @@
 <resources>
-    <string name="app_name">Kotlin-lesson</string>
+    <string name="app_name">Kotlin_lesson</string>
     <string name="new_note">Новая заметка</string>
-    <string name="logout_dialog_title">Выйти из аккаунта?</string>
-    <string name="logout_dialog_message">Все ваши заметки будут сохранены. Вы сможете получить к ним доступ после авторизации.</string>
-    <string name="logout_dialog_cancel">Отмена</string>
-    <string name="ok_bth_title">Ок</string>
-    <string name="logout_menu_title">Меню выхода</string>
+    <string name="logout_menu_title">Выход</string>
+    <string name="logout_dialog_title">Выход</string>
+    <string name="logout_dialog_message">Вы уверены?</string>
+    <string name="ok_btn_title">Да</string>
+    <string name="logout_dialog_cancel">Нет</string>
+    <string name="note_change_color">Цвет</string>
+    <string name="note_delete">Удалить</string>
+    <string name="delete">Удалить?</string>
+    <string name="note_delete_cancel">Нет</string>
+    <string name="note_delete_ok">Да</string>
 </resources>

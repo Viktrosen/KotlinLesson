@@ -1,15 +1,12 @@
 package com.hfrad.kotlinlesson.ui.note
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-
+import com.hfrad.kotlinlesson.data.NotesRepository
 import com.hfrad.kotlinlesson.data.entity.Note
 import com.hfrad.kotlinlesson.data.model.NoteResult
 import com.hfrad.kotlinlesson.ui.base.BaseViewModel
-import ru.geekbrains.gb_kotlin.data.NotesRepository
 
 
-class NoteViewModel : BaseViewModel<Note?, NoteViewState>() {
+class NoteViewModel(val notesRepository: NotesRepository) : BaseViewModel<NoteViewState.Data, NoteViewState>() {
 
     init {
         viewStateLiveData.value = NoteViewState()
@@ -22,18 +19,34 @@ class NoteViewModel : BaseViewModel<Note?, NoteViewState>() {
     }
 
     fun loadNote(noteId: String) {
-        NotesRepository.getNoteById(noteId).observeForever { result ->
+        notesRepository.getNoteById(noteId).observeForever { result ->
             result ?: return@observeForever
-            when(result){
-                is NoteResult.Success<*> ->  viewStateLiveData.value = NoteViewState(note = result.data as? Note)
+            when (result) {
+                is NoteResult.Success<*> -> {
+                    pendingNote = result.data as? Note
+                    viewStateLiveData.value = NoteViewState(NoteViewState.Data(note = pendingNote))
+                }
                 is NoteResult.Error -> viewStateLiveData.value = NoteViewState(error = result.error)
+            }
+        }
+    }
+
+    fun deleteNote() {
+        pendingNote?.let {
+            notesRepository.deleteNote(it.id).observeForever { result ->
+                result ?: return@observeForever
+                pendingNote = null
+                when (result) {
+                    is NoteResult.Success<*> -> viewStateLiveData.value = NoteViewState(NoteViewState.Data(isDeleted = true))
+                    is NoteResult.Error -> viewStateLiveData.value = NoteViewState(error = result.error)
+                }
             }
         }
     }
 
     override fun onCleared() {
         pendingNote?.let {
-            NotesRepository.saveNote(it)
+            notesRepository.saveNote(it)
         }
     }
 

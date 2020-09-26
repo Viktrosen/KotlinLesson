@@ -1,13 +1,12 @@
 package com.hfrad.kotlinlesson.ui.main
 
 import androidx.lifecycle.Observer
+import com.hfrad.kotlinlesson.data.NotesRepository
 import com.hfrad.kotlinlesson.data.entity.Note
 import com.hfrad.kotlinlesson.data.model.NoteResult
 import com.hfrad.kotlinlesson.ui.base.BaseViewModel
-import ru.geekbrains.gb_kotlin.data.NotesRepository
 
-
-class MainViewModel() : BaseViewModel<List<Note>?, MainViewState>() {
+class MainViewModel(notesRepository: NotesRepository) : BaseViewModel<List<Note>?, MainViewState>() {
 
     private val notesObserver = Observer<NoteResult> { result ->
         result ?: return@Observer
@@ -17,7 +16,7 @@ class MainViewModel() : BaseViewModel<List<Note>?, MainViewState>() {
         }
     }
 
-    private val repositoryNotes = NotesRepository.getNotes()
+    private val repositoryNotes = notesRepository.getNotes()
 
     init {
         viewStateLiveData.value = MainViewState()

@@ -1,3 +1,3 @@
 package com.hfrad.kotlinlesson.data.errors
 
-class NoAuthException : Throwable()
+class NoAuthException(msg: String? = null) : Throwable(msg)

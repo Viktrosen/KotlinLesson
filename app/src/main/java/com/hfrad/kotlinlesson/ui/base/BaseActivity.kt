@@ -10,50 +10,54 @@ import com.firebase.ui.auth.AuthUI
 import com.hfrad.kotlinlesson.R
 import com.hfrad.kotlinlesson.data.errors.NoAuthException
 
-private const val RC_SIGN_IN = 458
-
 abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
 
+    companion object {
+        private const val RC_SIGN_IN = 4242
+    }
+
     abstract val viewModel: BaseViewModel<T, S>
-    abstract val layoutRes: Int
+    abstract val layoutRes: Int?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layoutRes)
-        viewModel.getViewState().observe(this, Observer<S> { t ->
-            t?.apply {
-                data?.let { renderData(it) }
-                error?.let { renderError(it) }
-            }
-        })
-    }
-
-    private fun startLoginActivity() {
-        val providers = listOf(
-                AuthUI.IdpConfig.EmailBuilder().build(),
-                AuthUI.IdpConfig.GoogleBuilder().build())
-
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setLogo(R.drawable.splash_background)
-                        .setTheme(R.style.LoginStyle)
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN)
-    }
-
-    protected open fun renderError(error: Throwable) {
-        when(error) {
-            is NoAuthException -> startLoginActivity()
-            else -> error.message?.let { showError(it) }
+        layoutRes?.let {
+            setContentView(it)
         }
+        viewModel.getViewState().observe(this, Observer { state ->
+            state ?: return@Observer
+            state.error?.let {
+                renderError(it)
+                return@Observer
+            }
+            renderData(state.data)
+        })
     }
 
     abstract fun renderData(data: T)
 
-    protected fun showError(error:String){
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+    protected fun renderError(error: Throwable) {
+        when (error) {
+            is NoAuthException -> startLogin()
+            else -> error.message?.let {
+                showError(it)
+            }
+        }
+    }
+
+    private fun startLogin() {
+        val providers = listOf(
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+
+        val intent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setLogo(R.drawable.android_robot)
+            .setTheme(R.style.LoginStyle)
+            .setAvailableProviders(providers)
+            .build()
+
+        startActivityForResult(intent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -61,5 +65,9 @@ abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
         if (requestCode == RC_SIGN_IN && resultCode != Activity.RESULT_OK) {
             finish()
         }
+    }
+
+    protected fun showError(error: String) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
     }
 }
