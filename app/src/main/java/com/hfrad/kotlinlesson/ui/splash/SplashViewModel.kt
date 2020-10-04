@@ -3,17 +3,14 @@ package com.hfrad.kotlinlesson.ui.splash
 import com.hfrad.kotlinlesson.data.NotesRepository
 import com.hfrad.kotlinlesson.data.errors.NoAuthException
 import com.hfrad.kotlinlesson.ui.base.BaseViewModel
+import kotlinx.coroutines.launch
 
-class SplashViewModel(val notesRepository: NotesRepository) : BaseViewModel<Boolean?, SplashViewState>() {
+class SplashViewModel(val notesRepository: NotesRepository) : BaseViewModel<Boolean?>() {
 
-    fun requestUser(){
-        notesRepository.getCurrentUser().observeForever {
-            viewStateLiveData.value = if(it != null){
-                SplashViewState(authenticated = true)
-            } else {
-                SplashViewState(error = NoAuthException())
-            }
-        }
+    fun requestUser() = launch {
+        notesRepository.getCurrentUser()?.let {
+            setData(true)
+        } ?: setError(NoAuthException())
     }
 
 }

@@ -20,7 +20,7 @@ import com.hfrad.kotlinlesson.ui.base.BaseActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
+class NoteActivity : BaseActivity<NoteData>() {
     companion object {
         private const val NOTE_KEY = "note"
         private const val DATE_FORMAT = "dd.MM.yy HH:mm"
@@ -61,7 +61,7 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
         }
     }
 
-    override fun renderData(data: NoteViewState.Data) {
+    override fun renderData(data: NoteData) {
         if (data.isDeleted) {
             finish()
             return
@@ -98,10 +98,10 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
         } ?: return
 
         note = note?.copy(
-            title = et_title.text.toString(),
-            text = et_body.text.toString(),
-            lastChanged = Date(),
-            color = color
+                title = et_title.text.toString(),
+                text = et_body.text.toString(),
+                lastChanged = Date(),
+                color = color
         ) ?: Note(UUID.randomUUID().toString(), et_title.text.toString(), et_body.text.toString(), color)
 
         note?.let { viewModel.save(it) }
@@ -130,10 +130,10 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
 
     private fun deleteNote() {
         AlertDialog.Builder(this)
-            .setMessage(getString(R.string.delete))
-            .setNegativeButton(getString(R.string.note_delete_cancel)) { dialog, which -> dialog.dismiss() }
-            .setPositiveButton(getString(R.string.note_delete_ok)) { dialog, which -> viewModel.deleteNote() }
-            .show()
+                .setMessage(getString(R.string.delete))
+                .setNegativeButton(getString(R.string.note_delete_cancel)) { dialog, which -> dialog.dismiss() }
+                .setPositiveButton(getString(R.string.note_delete_ok)) { dialog, which -> viewModel.deleteNote() }
+                .show()
     }
 
 }

@@ -20,9 +20,7 @@ import com.hfrad.kotlinlesson.ui.note.NoteActivity
 import com.hfrad.kotlinlesson.ui.splash.SplashActivity
 
 
-class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.LogoutListener {
-
-    val firestoreProvider: FirestoreProvider by inject()
+class MainActivity : BaseActivity<List<Note>?>(), LogoutDialog.LogoutListener {
 
     companion object {
         fun start(context: Context) = Intent(context, MainActivity::class.java).apply {
@@ -57,13 +55,13 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean =
-        MenuInflater(this).inflate(R.menu.menu_main, menu).let { true }
+            MenuInflater(this).inflate(R.menu.menu_main, menu).let { true }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
-            R.id.logout -> showLogoutDialog().let { true }
-            else -> false
-        }
+            when (item.itemId) {
+                R.id.logout -> showLogoutDialog().let { true }
+                else -> false
+            }
 
     fun showLogoutDialog() {
         supportFragmentManager.findFragmentByTag(LogoutDialog.TAG) ?: LogoutDialog().show(supportFragmentManager, LogoutDialog.TAG)
@@ -71,11 +69,11 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
 
     override fun onLogout() {
         AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener {
-                startActivity(Intent(this, SplashActivity::class.java))
-                finish()
-            }
+                .signOut(this)
+                .addOnCompleteListener {
+                    startActivity(Intent(this, SplashActivity::class.java))
+                    finish()
+                }
     }
 }
 
