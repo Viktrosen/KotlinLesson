@@ -48,7 +48,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Заголовок"
+            android:hint="Пульс"
             android:textColorHint="@android:color/black">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@null"
-            android:hint="Текст заметки"/>
+            android:hint="Давление"/>
     </LinearLayout>
 
 

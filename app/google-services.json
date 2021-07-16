@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "278429497312-8i0u6a6s710ev29tiqgpiqode0dfk7ss.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hfrad.kotlinlesson",
+            "certificate_hash": "532fd66e9331ed661aa41de1ea05e03b9f215962"
+          }
+        },
+        {
           "client_id": "278429497312-9rs10obj8g6vctfn945vm6pcetreq463.apps.googleusercontent.com",
           "client_type": 3
         }

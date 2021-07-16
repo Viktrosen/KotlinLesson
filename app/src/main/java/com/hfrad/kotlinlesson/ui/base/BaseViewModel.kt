@@ -15,6 +15,7 @@ open class BaseViewModel<S>: ViewModel(), CoroutineScope {
         Dispatchers.Default + Job()
     }
 
+    @ExperimentalCoroutinesApi
     private val viewStateChannel = BroadcastChannel<S>(Channel.CONFLATED)
     private val errorChannel = Channel<Throwable>()
 

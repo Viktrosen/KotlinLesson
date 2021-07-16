@@ -9,11 +9,8 @@ import androidx.lifecycle.Observer
 import com.firebase.ui.auth.AuthUI
 import com.hfrad.kotlinlesson.R
 import com.hfrad.kotlinlesson.data.errors.NoAuthException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseActivity<S> : AppCompatActivity(), CoroutineScope {
@@ -39,6 +36,7 @@ abstract class BaseActivity<S> : AppCompatActivity(), CoroutineScope {
         }
     }
 
+    @ObsoleteCoroutinesApi
     override fun onStart() {
         super.onStart()
         dataJob = launch {

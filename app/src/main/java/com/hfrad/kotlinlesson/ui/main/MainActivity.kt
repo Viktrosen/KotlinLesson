@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.hfrad.kotlinlesson.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -36,7 +37,7 @@ class MainActivity : BaseActivity<List<Note>?>(), LogoutDialog.LogoutListener {
         super.onCreate(savedInstanceState)
         setSupportActionBar(toolbar)
 
-        rv_notes.layoutManager = GridLayoutManager(this, 2)
+        rv_notes.layoutManager = LinearLayoutManager(this)
         adapter = NotesRVAdapter {
             NoteActivity.start(this, it.id)
         }

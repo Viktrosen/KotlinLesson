@@ -33,4 +33,13 @@ data class Note (
         return true
     }
 
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + text.hashCode()
+        result = 31 * result + color.hashCode()
+        result = 31 * result + lastChanged.hashCode()
+        return result
+    }
+
 }
